@@ -1,0 +1,5 @@
+package funbook
+
+import (
+	strings
+)
