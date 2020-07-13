@@ -17,3 +17,12 @@ func CheckPanic(e error) {
 		panic(e)
 	}
 }
+
+func CheckNonMissing(e error) {
+	if e != nil {
+		if _, ok := e.(*os.PathError); !ok {
+			fmt.Printf("\n%T\t%v\n", e, e)
+			panic(e)
+		}
+	}
+}

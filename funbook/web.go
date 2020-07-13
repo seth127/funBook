@@ -8,8 +8,8 @@ import (
 var parseDict = map[string]string {
 	"&rsquo;" : "'",
 	"&mdash;" : "--",
-	"&ldquo" : `"`,
-	"&rdquo" : `"`,
+	"&ldquo;" : `"`,
+	"&rdquo;" : `"`,
 }
 
 func ParseHtml(s string) (bool, string) {

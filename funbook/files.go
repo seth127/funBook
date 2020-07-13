@@ -2,6 +2,7 @@ package funbook
 
 import (
 	"os"
+	"io/ioutil"
 	"github.com/seth127/funBook/fbutils"
 )
 
@@ -23,16 +24,11 @@ func WriteParagraph(s string, n int, outDir string) {
 	fbutils.CheckPanic(err)
 }
 
-//func ReadParagraph(s string, n int, path string) {
-//
-//	filename := path + fbutils.PadNumberWithZero(uint32(n))
-//
-//	f, err := os.OpenFile(filename, os.O_RDONLY, os.ModeAppend)
-//
-//	fbutils.CheckPanic(err)
-//
-//	defer f.Close()
-//
-//	s, err := f.ReadString()
-//	fbutils.CheckPanic(err)
-//}
+func ReadParagraph(path string, n int) (string, error) {
+
+	filename := path + fbutils.PadNumberWithZero(uint32(n))
+
+	dat, err := ioutil.ReadFile(filename)
+
+	return string(dat), err
+}
