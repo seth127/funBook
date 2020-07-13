@@ -7,58 +7,52 @@ import (
 
 	"strings"
 
-	//"io"
-	//"os"
+	//"io/ioutil"
+	"os"
 
 	"net/http"
 	"fmt"
 
 	"math/rand"
 
-	//"funbook"
-	"regexp"
+	"github.com/seth127/funBook/funbook"
 )
 
-// regex
+const maxParagraphs = 99
+const outDir = "text/MobyDick/"
 
-var parseDict = map[string]string {
-	"&rsquo;" : "'",
-	"&mdash;" : "--",
-	"&ldquo" : `"`,
-	"&rdquo" : `"`,
+func PickRand(n int) int {
+	rand.Seed(time.Now().UnixNano())
+	pick := rand.Intn(n)
+	return pick
 }
 
-func ParseHtml(s string) (bool, string) {
+func WriteParagraph(s string, n int) {
 
-	// trim whitespace
-	ms := regexp.MustCompile(` +`)
-	s = ms.ReplaceAllString(s, " ")
+	filename := outDir + string(n)
 
-	// parse from the dict
-	for old, new := range parseDict {
-		s = strings.ReplaceAll(s, old, new)
+	f, err := os.Open(filename)
+
+	if os.IsNotExist(err) {
+		f, err = os.Create(filename)
 	}
+	checkPanic(err)
 
-	// replace paragraph
-	mp := regexp.MustCompile(`<\/?p>`)
-	s = mp.ReplaceAllString(s, "")
+	defer f.Close()
 
-	// if there are no letters return false
-	ml := regexp.MustCompile("[A-Za-z]")
-	b :=  ml.MatchString(s)
-	return b, s
+	_, err = f.WriteString(s)
+	checkPanic(err)
 }
 
 
+func checkPanic(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
 
 func main() {
-	// pick random line
-	maxLines := 99
-	rand.Seed(time.Now().UnixNano())
-	pick := maxLines // rand.Intn(maxLines)
-	fmt.Println(pick)
-
-
+	// pick := PickRand(maxParagraphs)
 
 	// Make HTTP GET request
 	response, err := http.Get("https://www.gutenberg.org/files/2701/2701-h/2701-h.htm")
@@ -78,21 +72,20 @@ func main() {
 		if strings.Contains(t, "<p>") {
 			pc++
 			fmt.Printf("\n----- %d -----\n", pc)
+			if pc > maxParagraphs {
+				break
+			}
 		}
 
-		pb, pt := ParseHtml(t)
+		pb, pt := funbook.ParseHtml(t)
 		if pb {
 			fmt.Printf(pt)
+
+			if pc == maxParagraphs {
+				WriteParagraph(pt, pc)
+			}
 		}
 
-		if pc == pick {
-			//pt := strings.ReplaceAll(t, "<p>", "")
-
-			fmt.Println("naw")
-
-		} else if pc > pick {
-			break
-		}
 	}
 
 
