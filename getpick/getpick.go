@@ -8,7 +8,9 @@ import (
 	"github.com/seth127/funBook/fbutils"
 )
 
-
+// This will eventually become a package function call
+// and more specifically, the call that will be made
+// in the lambda.
 func main() {
 	pick := fbutils.PickRand(funbook.MaxParagraphs)
 	pickString, pickErr := funbook.ReadParagraph(funbook.OutDir, pick)
