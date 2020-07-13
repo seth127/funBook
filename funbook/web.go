@@ -23,8 +23,11 @@ func ParseHtml(s string) (bool, string) {
 		s = strings.ReplaceAll(s, old, new)
 	}
 
-	// replace paragraph
-	mp := regexp.MustCompile(`<\/?p>`)
+	// replace html tags
+	//mp := regexp.MustCompile(`<\/?p>`)
+	//s = mp.ReplaceAllString(s, "")
+
+	mp := regexp.MustCompile(`<.*?>`)
 	s = mp.ReplaceAllString(s, "")
 
 	// if there are no letters return false
