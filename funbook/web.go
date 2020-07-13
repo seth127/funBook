@@ -24,9 +24,6 @@ func ParseHtml(s string) (bool, string) {
 	}
 
 	// replace html tags
-	//mp := regexp.MustCompile(`<\/?p>`)
-	//s = mp.ReplaceAllString(s, "")
-
 	mp := regexp.MustCompile(`<.*?>`)
 	s = mp.ReplaceAllString(s, "")
 

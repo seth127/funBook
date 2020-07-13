@@ -22,3 +22,17 @@ func WriteParagraph(s string, n int, outDir string) {
 	_, err = f.WriteString(s + "\n")
 	fbutils.CheckPanic(err)
 }
+
+//func ReadParagraph(s string, n int, path string) {
+//
+//	filename := path + fbutils.PadNumberWithZero(uint32(n))
+//
+//	f, err := os.OpenFile(filename, os.O_RDONLY, os.ModeAppend)
+//
+//	fbutils.CheckPanic(err)
+//
+//	defer f.Close()
+//
+//	s, err := f.ReadString()
+//	fbutils.CheckPanic(err)
+//}
