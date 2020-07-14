@@ -40,7 +40,7 @@ func main() {
 		pb, pt := funbook.ParseHtml(t)
 		if pb {
 			//fmt.Printf(pt)
-			funbook.WriteParagraph(pt, pc, fbutils.OutDir)
+			funbook.WritePickLocal(pt, pc, fbutils.OutDir)
 		}
 
 	}

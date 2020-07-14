@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-func WriteParagraph(s string, n int, outDir string) {
+func WritePickLocal(s string, n int, outDir string) {
 
 	filename := filepath.Join(outDir, fbutils.PadNumberWithZero(uint32(n)))
 
@@ -25,7 +25,7 @@ func WriteParagraph(s string, n int, outDir string) {
 	fbutils.CheckPanic(err)
 }
 
-func ReadParagraph(path string, n int) (string, string, error) {
+func ReadPickLocal(path string, n int) (string, string, error) {
 
 	filename := filepath.Join(path, fbutils.PadNumberWithZero(uint32(n)))
 
