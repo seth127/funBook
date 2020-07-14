@@ -1,19 +1,29 @@
 
 # Send daily emails
 
-Make a lambda that will call `GetPick()` for each book and send it to all subscribers.
+## Start with lambda for Moby Dick writing to s3
 
-Or should there be a separate lambda for each book? Maybe that's the skateboard.
+* make pick and check s3 instead of disk
+* read from s3 (print to be sure)
+* write back to s3 DONE
+* put this in Lambda on cron
 
-* store emails in s3 or RDS
+## Eventual Plan
+
+* store emails in s3
 * each time it runs
-    * query s3 for book
-    * `GetPick()` on that book
-    * query db for emails associated with that book
-    * send pick to all emails
+    * make pick and check s3 for text
+    * query db for emails
+    * send pick to all emails (instead of writing to s3)
         * DO I NEED SES FOR THIS???
-        * maybe start with reading and writing the pick back to somewhere else in s3, just to test
-    * go to next book (maybe)
+
+## Improvements
+
+* store emails in RDS?
+
+## Multiple books
+
+Make a lambda that will call `GetPick()` for each book and send it to all subscribers.
 
 # Sign up
 

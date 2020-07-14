@@ -15,7 +15,7 @@ import (
 func main() {
 
 	// Make HTTP GET request
-	response, err := http.Get(funbook.BookUrl)
+	response, err := http.Get(fbutils.BookUrl)
 	fbutils.CheckPanic(err)
 
 	defer response.Body.Close()
@@ -30,7 +30,7 @@ func main() {
 
 		if strings.Contains(t, "<p>") {
 			pc++
-			if pc > funbook.MaxParagraphs {
+			if pc > fbutils.MaxParagraphs {
 				fmt.Printf("All done. Wrote %d paragraphs.\n", pc-1)
 				break
 			}
@@ -40,7 +40,7 @@ func main() {
 		pb, pt := funbook.ParseHtml(t)
 		if pb {
 			//fmt.Printf(pt)
-			funbook.WriteParagraph(pt, pc, funbook.OutDir)
+			funbook.WriteParagraph(pt, pc, fbutils.OutDir)
 		}
 
 	}

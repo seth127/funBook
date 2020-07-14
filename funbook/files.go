@@ -4,11 +4,12 @@ import (
 	"os"
 	"io/ioutil"
 	"github.com/seth127/funBook/fbutils"
+	"path/filepath"
 )
 
 func WriteParagraph(s string, n int, outDir string) {
 
-	filename := outDir + fbutils.PadNumberWithZero(uint32(n))
+	filename := filepath.Join(outDir, fbutils.PadNumberWithZero(uint32(n)))
 
 	f, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 
@@ -24,11 +25,11 @@ func WriteParagraph(s string, n int, outDir string) {
 	fbutils.CheckPanic(err)
 }
 
-func ReadParagraph(path string, n int) (string, error) {
+func ReadParagraph(path string, n int) (string, string, error) {
 
-	filename := path + fbutils.PadNumberWithZero(uint32(n))
+	filename := filepath.Join(path, fbutils.PadNumberWithZero(uint32(n)))
 
 	dat, err := ioutil.ReadFile(filename)
 
-	return string(dat), err
+	return string(dat), filename, err
 }
