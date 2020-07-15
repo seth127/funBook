@@ -11,7 +11,10 @@ import (
 	"github.com/seth127/funBook/fbutils"
 )
 
-
+// Pulls the book from fbutils.BookUrl and saves each paragraph
+// to a numbered text file in fbutils.OutDir.
+// The intention is to extend this to be able to pull an arbitrary book
+// from Gutenburg and write the paragraphs straight to s3. Semi-long term roadmap though.
 func main() {
 
 	// Make HTTP GET request
