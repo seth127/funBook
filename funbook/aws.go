@@ -7,10 +7,32 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/seth127/funBook/fbutils"
+	"log"
 	"net/http"
 	"os"
+	"path/filepath"
+	"strings"
+	"time"
 )
 
+// This is a placeholder to write the byte array of the picked paragraph to a text file in S3,
+// but it will be replaced by something to write the paragraph into an email instead.
+func AddPickToS3(s *session.Session, pickBytes []byte, pickPath string) {
+	// build destination path
+	pathSlice := strings.Split(pickPath, "/")
+	timeStamp := time.Now().Format("20060102-150405")
+	destFile :=  fmt.Sprintf("%s-%s", timeStamp, pathSlice[len(pathSlice)-1])
+	destPath := filepath.Join(fbutils.S3_MD_TEST_KEY, destFile)
+
+	// Upload
+	err := WriteBufferToS3(s, fbutils.S3_BUCKET, pickBytes, destPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Successfully wrote to s3://%s/%s\n", fbutils.S3_BUCKET, destPath)
+}
 
 // WriteBufferToS3 uploads a buffer (byte slice) to a file in S3.
 // The `destPath` argument is often called a `key` in S3 terminology.
