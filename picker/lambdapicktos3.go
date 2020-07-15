@@ -7,7 +7,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/seth127/funBook/fbutils"
 	"github.com/seth127/funBook/funbook"
-	"log"
 )
 
 // Picks from fmt.Printf("s3://%s/%s", fbutils.S3_BUCKET, fbutils.S3_OUT_KEY)
@@ -27,7 +26,8 @@ func handleRequest() (string, error) {
 	/////// This part will change to email at some point
 	funbook.AddPickToS3(s, pickBytes, pickPath)
 
-	outMsg := ("\n---- %d ----\n%s\n", pick, pickBytes)
+	//outMsg := fmt.Sprintf("\n---- %d ----\n%s\n", pick, pickBytes)
+	outMsg := fmt.Sprintf("Successfully wrote to %s\n", pickPath)
 	return outMsg, nil
 }
 
