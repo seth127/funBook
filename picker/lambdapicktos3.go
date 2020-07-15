@@ -26,8 +26,7 @@ func handleRequest() (string, error) {
 	/////// This part will change to email at some point
 	funbook.AddPickToS3(s, pickBytes, pickPath)
 
-	//outMsg := fmt.Sprintf("\n---- %d ----\n%s\n", pick, pickBytes)
-	outMsg := fmt.Sprintf("Successfully wrote to %s\n", pickPath)
+	outMsg := fmt.Sprintf("\n---- %d ----\n%s\nSuccessfully wrote to %s\n", pick, pickBytes, pickPath)
 	return outMsg, nil
 }
 
