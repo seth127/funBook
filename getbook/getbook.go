@@ -16,7 +16,7 @@ func main() {
 
 	// Make HTTP GET request
 	response, err := http.Get(fbutils.BookUrl)
-	fbutils.CheckPanic(err)
+	fbutils.PanicNil(err)
 
 	defer response.Body.Close()
 

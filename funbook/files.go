@@ -17,12 +17,12 @@ func WritePickLocal(s string, n int, outDir string) {
 		f, err = os.Create(filename)
 	}
 
-	fbutils.CheckPanic(err)
+	fbutils.PanicNil(err)
 
 	defer f.Close()
 
 	_, err = f.WriteString(s + "\n")
-	fbutils.CheckPanic(err)
+	fbutils.PanicNil(err)
 }
 
 func ReadPickLocal(path string, n int) (string, string, error) {

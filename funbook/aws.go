@@ -43,39 +43,41 @@ func AddFileToS3(s *session.Session, bucket string, filePath string, destPath st
 	return err
 }
 
+// AddFileToS3 will upload a single file to S3, it will require a pre-built aws session
+// and will set file info like content type and encryption on the uploaded file.
+func WriteBufferToS3(s *session.Session, bucket string, buffer []byte, destPath string) error {
 
-func ReadFileFromS3(s *session.Session, bucket string, key string) (string, error) {
+	// Config settings: this is where you choose the bucket, filename, content-type etc.
+	// of the file you're uploading.
+	_, err := s3.New(s).PutObject(&s3.PutObjectInput{
+		Bucket:               aws.String(bucket),
+		Key:                  aws.String(destPath),
+		ACL:                  aws.String("private"),
+		Body:                 bytes.NewReader(buffer),
+		ContentLength:        aws.Int64(int64(len(buffer))),
+		ContentType:          aws.String(http.DetectContentType(buffer)),
+		ContentDisposition:   aws.String("attachment"),
+		ServerSideEncryption: aws.String("AES256"),
+	})
+	return err
+}
 
-	destination := fmt.Sprintf("s3://%s/%s", bucket, key)
+func ReadFileFromS3(s *session.Session, bucket string, key string) ([]byte, error) {
 
 	// Create a downloader with the session and default options
 	downloader := s3manager.NewDownloader(s)
 
-
-	// Write to a file !!!!!!!!!
-	// Create a file to write the S3 Object contents to.
-	f, err := os.Create("TESTER.txt")
-	if err != nil {
-		return destination, fmt.Errorf("failed to create file TESTER.txt %v", err)
-	}
-
-	// Write the contents of S3 Object to the file
-	n, err := downloader.Download(f, &s3.GetObjectInput{
+	// Write the contents of S3 Object to a buffer
+	buf := aws.NewWriteAtBuffer([]byte{})
+	_, err := downloader.Download(buf, &s3.GetObjectInput{
 		Bucket: aws.String(bucket),
 		Key:    aws.String(key),
 	})
 	if err != nil {
 		//return fmt.Errorf("failed to download file, %T -- %v", err, err)
-		return destination, fmt.Errorf("failed to download file, %T -- %v", err, err)
+		return make([]byte, 0), fmt.Errorf("failed to download file, %T -- %v", err, err)
 	}
 
-
-	fmt.Printf("file WRITTEN TO TESTER.txt -- downloaded from %s :: %d bytes\n", destination, n)
-
-	return destination, err
+	return buf.Bytes(), err
 }
-
-
-
-
 
