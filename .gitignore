@@ -2,4 +2,6 @@
 text/
 .DS_Store
 */.DS_Store
+lambdapicktos3/main
+lambdapicktos3/*.zip
 
