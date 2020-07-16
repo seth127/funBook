@@ -15,3 +15,6 @@ const S3_OUT_KEY = "funbook/books/MobyDickDemo"
 
 const S3_MD_TEST_KEY = "funbook/testing/"
 
+const ALL_TOOLS_EMAIL = "alltoolsintheshadowofthemoon@gmail.com"
+const SETH_EMAIL = "seth127@gmail.com"
+
